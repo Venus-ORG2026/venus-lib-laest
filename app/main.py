@@ -1,12 +1,13 @@
-from fastapi import FastAPI, Request
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+import webview
+from app.api import Api
 
-app = FastAPI()
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
-
-@app.get("/")
-def home(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+if __name__ == "__main__":
+    api = Api()
+    webview.create_window(
+        "Venus Library",
+        "ui/login.html",
+        js_api=api,
+        width=1200,
+        height=800
+    )
+    webview.start()
